@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>dii thndi sanahh 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0; min-height:100vh; display:grid; place-items:center;
+  font-family:'Montserrat', sans-serif;
+  background: radial-gradient(circle at top,#2b0033,#090014);
+  overflow:hidden;
+}
+
+/* background hearts */
+.love{
+  position:fixed; bottom:-40px;
+  color:rgba(255,120,200,.9);
+  animation: floatLove 8s linear infinite;
+}
+@keyframes floatLove{
+  to{transform:translateY(-120vh); opacity:0}
+}
+
+/* card */
+.card{
+  position:relative;
+  backdrop-filter: blur(14px);
+  background: rgba(255,255,255,.12);
+  padding:36px 30px;
+  border-radius:26px;
+  width:360px; text-align:center;
+  box-shadow:0 25px 60px rgba(0,0,0,.45);
+  animation: cardIn .9s ease;
+}
+@keyframes cardIn{
+  from{transform:scale(.7);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+h1{
+  font-family:'Playfair Display', serif;
+  font-size:28px; color:#ffd6ff;
+  text-shadow:0 0 12px rgba(255,182,255,.8);
+}
+
+/* buttons */
+.btns{display:flex; gap:14px; justify-content:center; margin:20px 0}
+button{
+  border:none; padding:12px 22px; border-radius:999px;
+  font-weight:700; cursor:pointer; transition:.25s ease;
+}
+button:hover{transform:scale(1.12)}
+#yes{background:#ff4d8d;color:#fff; animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+#no{background:#eee; position:absolute; left:50%; transform:translateX(-50%)}
+
+#hint{color:#ff9ad5; min-height:1.2em}
+
+/* loader */
+#loader{
+  display:none;
+  font-size:80px;
+  color:#ff4d8d;
+  animation: beat 1s infinite, glow 1.5s infinite;
+}
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+@keyframes glow{0%,100%{text-shadow:0 0 10px #ff4d8d}50%{text-shadow:0 0 25px #ff9ad5}}
+
+/* love screen */
+#loveScreen{
+  display:none;
+  text-align:center;
+  animation:cardIn 1s ease;
+}
+#gif{width:220px; margin-bottom:10px}
+.finalEmoji{
+  font-size:60px;
+  animation:bounce 1.4s infinite;
+}
+@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.flash{
+  animation: flash 1.5s infinite;
+}
+@keyframes flash{
+  0%{text-shadow:0 0 10px #ff4d8d}
+  50%{text-shadow:0 0 25px #ff9ad5}
+  100%{text-shadow:0 0 10px #ff4d8d}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+  <source src="https://dl.sndup.net/m6dq/Oh%20La%20La%20Amour.mp3" type="audio/mpeg">
+</audio>
+
+<!-- FIRST SCREEN -->
+<main class="card" id="first">
+  <h1>dii thndi sanahh, Do you love me?</h1>
+
+  <div class="btns">
+    <button id="yes">Yes 😘</button>
+    <button id="no">No 😔</button>
+  </div>
+
+  <div id="hint"></div>
+  <div id="loader">❤️</div>
+</main>
+
+<!-- LOVE SCREEN -->
+<div id="loveScreen">
+  <img id="gif" src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif">
+  <h1 class="flash">enkaryenu last yy yes prym nn 😌</h1>
+  <h1 class="flash">i lovee youu shuttumaniii 😘</h1>
+  <div class="finalEmoji">😌❤️</div>
+</div>
+
+<script>
+const no=document.getElementById("no");
+const yes=document.getElementById("yes");
+const hint=document.getElementById("hint");
+const loader=document.getElementById("loader");
+const first=document.getElementById("first");
+const loveScreen=document.getElementById("loveScreen");
+const music=document.getElementById("music");
+const card=document.querySelector(".card");
+
+const lines=[
+"ulpp indo nink no aakan? 🙄",
+"orppano? 🥺",
+"I brought chocolate 🍫",
+"And lingerie maybe? 😌",
+"Nalla baby ellee? 😔",
+"nmmk restart cheya? 🥲"
+];
+let i=0;
+
+/* NO moves only inside card */
+no.addEventListener("mouseover",()=>{
+  const rect = card.getBoundingClientRect();
+  const maxX = rect.width - no.offsetWidth;
+  const maxY = rect.height - no.offsetHeight;
+
+  const x = Math.random()*maxX;
+  const y = Math.random()*maxY;
+
+  no.style.transition="transform .3s ease";
+  no.style.transform = `translate(${x}px, ${y}px)`;
+
+  hint.textContent = lines[i%lines.length];
+  i++;
+});
+
+/* YES */
+yes.addEventListener("click",()=>{
+  loader.style.display="block";
+  setTimeout(()=>{
+    first.style.display="none";
+    loveScreen.style.display="block";
+    music.play();
+  },2000);
+});
+
+/* background hearts */
+setInterval(()=>{
+  const l=document.createElement("div");
+  l.className="love";
+  l.textContent=["❤️","💖","💗"][Math.floor(Math.random()*3)];
+  l.style.left=Math.random()*100+"vw";
+  l.style.fontSize=Math.random()*18+14+"px";
+  document.body.appendChild(l);
+  setTimeout(()=>l.remove(),8000);
+},300);
+</script>
+
+</body>
+</html>
